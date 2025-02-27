@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="newTemplate.xhtml">
+
+    <ui:define name="title">Home</ui:define>
+
+    <ui:define name="templateContent">
+        <h:form id="empForm">
+            <p:growl id="growl" showDetail="true" sticky="false"/>
+            <p:fieldset legend="Welcome #{log.selectOneEmployee().empName}" style="width: 400px; margin: 100px auto; text-align: center;"><br/>
+
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <p:panelGrid id="details" columns="2" style="width: auto; text-align: left;">
+
+                        <p:outputLabel for="id" value="ID:" />
+                        <p:outputLabel id="id" value="#{log.selectOneEmployee().id}" />
+
+                        <p:outputLabel for="name" value="Name: " />
+                        <p:outputLabel id="name" value="#{log.selectOneEmployee().empName}" />
+
+                        <p:outputLabel for="email" value="Email: " />
+                        <p:outputLabel id="email" value="#{log.selectOneEmployee().email}" />
+
+                        <p:outputLabel for="address" value="Address: " />
+                        <p:outputLabel id="address" value="#{log.selectOneEmployee().address}" />
+
+                        <p:outputLabel for="department" value="Department: " />
+                        <p:outputLabel id="department" value="#{log.selectOneEmployee().department}" />
+
+                        <p:outputLabel for="salary" value="Salary: " />
+                        <p:outputLabel id="salary" value="#{log.selectOneEmployee().salary}" />
+                    </p:panelGrid><br/>
+                </div><br/>
+
+                <p:commandButton value="Edit My Profile" onclick="PF('editDialog').show();"/><p:spacer width="3"/>
+
+                <p:commandButton value="Delete My Profile" actionListener="#{log.deleteEmp}" immediate="true" update="empForm">
+                    <p:confirm header="Confirmation" message="Are you sure you want to delete?" icon="pi pi-exclamation-triangle"/>
+                </p:commandButton>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button" update="empForm" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog><p:spacer width="5"/>
+
+            </p:fieldset> <br/>
+
+            <p:dialog id="profileDialog" header="Edit Profile" widgetVar="editDialog" modal="true" showEffect="fade" hideEffect="fade" >
+
+                <h:panelGrid columns="2" cellpadding="7">
+                    <p:outputLabel for="newName" value="New Name:" />
+                    <p:inputText id="newName" value="#{log.selectOneEmployee().empName}" />
+
+                    <p:outputLabel for="newEmail" value="New Email:" />
+                    <p:inputText id="newEmail" value="#{log.selectOneEmployee().email}" />
+
+                    <p:outputLabel for="newPassword" value="New Password:" />
+                    <p:password id="newPassword" value="#{log.selectOneEmployee().password}" required="true" requiredMessage="Password is Required!" />
+
+                    <p:outputLabel for="newAddress" value="New Address:" />
+                    <p:inputText id="newAddress" value="#{log.selectOneEmployee().address}" />
+
+                    <p:outputLabel for="newDepartment" value="New Department:" />
+                    <p:selectOneMenu id="newDepartment" value="#{log.selectOneEmployee().department}" required="true" requiredMessage="Department is required!" >
+                        <f:selectItem itemValue="Manager" itemLabel="Manager" />
+                        <f:selectItem itemValue="BackEnd Developer" itemLabel="BackEnd Developer" />
+                        <f:selectItem itemValue="FrontEnd Developer" itemLabel="FrontEnd Developer" />
+                        <f:selectItem itemValue="Tester" itemLabel="Tester" />
+                        <f:selectItem itemValue="IT" itemLabel="IT" />
+                        <f:selectItem itemValue="HR" itemLabel="HR" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="newSalary" value="New Salary:" />
+                    <p:inputText id="newSalary" value="#{log.selectOneEmployee().salary}" /><br/>
+
+                    <p:commandButton value="Submit" actionListener="#{log.saveProfile}" update="empForm" oncomplete="PF('editDialog').hide();"/>
+                </h:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>
+

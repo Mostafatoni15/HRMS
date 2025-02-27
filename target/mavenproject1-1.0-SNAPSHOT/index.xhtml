@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="newTemplate.xhtml">
+    
+      <ui:define name="title">Home</ui:define>
+      
+    <ui:define name="templateContent">
+        <h:form id="readForm">
+            <p:growl id="readGrowl" showDetail="true"/>
+
+            <p:dataTable id="employeesTable"  var="allEmpsTable" value="#{employee.allEmps()}" resizableColumns="true" rowKey="#{employee.selectedEmp.id}"
+                         widgetVar="empsTable" style="align-content: center; background-position: center" >
+
+                <p:column headerText="ID" sortBy="#{allEmpsTable.id}" filterBy="#{allEmpsTable.id}">
+                    <h:outputText value="#{allEmpsTable.id}" />
+                </p:column>
+                <p:column headerText="Name" sortBy="#{allEmpsTable.empName}" filterBy="#{allEmpsTable.empName}">
+                    <h:outputText value="#{allEmpsTable.empName}" />
+                </p:column>
+                <p:column headerText="Email" sortBy="#{allEmpsTable.email}" filterBy="#{allEmpsTable.email}">
+                    <h:outputText value="#{allEmpsTable.email}" />
+                </p:column>
+                <p:column headerText="Address" sortBy="#{allEmpsTable.address}" filterBy="#{allEmpsTable.address}">
+                    <h:outputText value="#{allEmpsTable.address}" />
+                </p:column>
+                <p:column headerText="Department" sortBy="#{allEmpsTable.department}" filterBy="#{allEmpsTable.department}">
+                    <h:outputText value="#{allEmpsTable.department}" />
+                </p:column>
+                <p:column headerText="Salary" sortBy="#{allEmpsTable.salary}" filterBy="#{allEmpsTable.salary}">
+                    <h:outputText value="#{allEmpsTable.salary}" />
+                </p:column>
+
+            </p:dataTable>
+        </h:form> 
+    </ui:define>   
+</ui:composition>
