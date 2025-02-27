@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="newTemplate.xhtml">
+
+    <ui:define name="templateContent">
+        <h:form>
+            <p:toolbar style="background-color: #a2a2b6; color: white; padding: 10px; text-align: center;">
+                <p:toolbarGroup style="width: 100%; display: flex; justify-content: center;">
+                    <h:outputText value="Provide The Following Details" style="font-weight: bold;" />
+                </p:toolbarGroup>
+            </p:toolbar>
+            <hr style="border: 1px solid #a2a2b6; margin-top: -10px;"/>
+        </h:form>
+        
+        <h:form id="loginForm">
+
+            <p:growl id="growl" showDetail="true" sticky="false"/>
+            <p:fieldset legend="🔑 User Login" style="width: 400px; margin: 100px auto; text-align: center;"><br/>
+
+                <p:outputLabel for="email" value="Email:" />
+                <p:inputText id="email" value="#{log.employee.email}" required="true" requiredMessage="Email is required"  >
+                    <p:ajax  />
+                </p:inputText><br/><br/>
+
+                <p:outputLabel for="password" value="Password:" />
+                <p:inputText id="password" value="#{log.employee.password}" type="password" required="true" requiredMessage="Password is required" >
+                    <p:ajax event="change" />
+                </p:inputText><br/><br/>
+
+                <p:commandButton value="Login" action="#{log.logIn()}" process="@this" update=":pageContentPanel loginForm growl" >
+                </p:commandButton><br/><br/>
+
+                <p:commandButton value="Register" onclick="PF('newRegister').show();" /><br/>
+
+            </p:fieldset> <br/>
+        </h:form>
+        <h:form id="registerForm">
+            <p:dialog id="registeDialog" header="Register" widgetVar="newRegister" modal="true" showEffect="fade" hideEffect="fade" >
+                <p:growl id="registeGrowl" showDetail="true" sticky="false"/>
+                <p:panelGrid columns="2">
+
+                    <p:outputLabel for="empName" value="Name:" />
+                    <p:inputText id="empName"  value="#{employee.selectedEmp.empName}" required="true" requiredMessage="Name is required!" />
+
+                    <p:outputLabel for="registerEmail" value="Email:" />
+                    <p:inputText id="registerEmail" value="#{employee.selectedEmp.email}" required="true" requiredMessage="Email is required!" />
+
+                    <p:outputLabel for="registerPassword" value="Password:" />
+                    <p:password id="registerPassword" value="#{employee.selectedEmp.password}" required="true" requiredMessage="Password is required!" />
+
+                    <p:outputLabel for="address" value="Address:" />
+                    <p:inputText id="address" value="#{employee.selectedEmp.address}" />
+
+                    <p:outputLabel for="department" value="Department: " />
+                    <p:selectOneMenu id="department" value="#{employee.selectedEmp.department}" required="true" requiredMessage="Department is required!" >
+                        <f:selectItem itemLabel="Select Department" itemValue="" />
+                        <f:selectItem itemValue="Manager" itemLabel="Manager" />
+                        <f:selectItem itemValue="BackEnd Developer" itemLabel="BackEnd Developer" />
+                        <f:selectItem itemValue="FrontEnd Developer" itemLabel="FrontEnd Developer" />
+                        <f:selectItem itemValue="Tester" itemLabel="Tester" />
+                        <f:selectItem itemValue="IT" itemLabel="IT" />
+                        <f:selectItem itemValue="HR" itemLabel="HR" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="salary" value="Salary" />
+                    <p:inputText id="salary" value="#{employee.selectedEmp.salary}" /><br/>
+
+                    <p:commandButton value="Registe" actionListener="#{employee.newEmp()}" update="registerForm registeGrowl" oncomplete="PF('newRegister').hide();"/>
+
+                </p:panelGrid>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

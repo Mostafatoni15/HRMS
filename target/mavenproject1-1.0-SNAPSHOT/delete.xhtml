@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <title>Delete</title>
+    </h:head>
+
+    <h:body>
+        <ui:composition template="newTemplate.xhtml" >
+            <ui:define name="templateContent">
+                <h:form id="deleteForm">
+                    <p:growl id="deleteGrowl" showDetail="true"/>
+
+                    <p:dataTable id="deleteTable"  var="deleteEmpsTable" value="#{employee.allEmps()}" resizableColumns="true" rowKey="#{employee.selectedEmp.id}"
+                                 widgetVar="deleteEmployeesTable" style="align-content: center; background-position: center" >
+
+                        <p:column headerText="ID" sortBy="#{deleteEmpsTable.id}" filterBy="#{deleteEmpsTable.id}">
+                            <h:outputText value="#{deleteEmpsTable.id}" />
+                        </p:column>
+                        <p:column headerText="Name" sortBy="#{deleteEmpsTable.empName}" filterBy="#{deleteEmpsTable.empName}">
+                            <h:outputText value="#{deleteEmpsTable.empName}" />
+                        </p:column>
+                        <p:column headerText="Email" sortBy="#{deleteEmpsTable.email}" filterBy="#{deleteEmpsTable.email}">
+                            <h:outputText value="#{deleteEmpsTable.email}" />
+                        </p:column>
+                        <p:column headerText="Address" sortBy="#{deleteEmpsTable.address}" filterBy="#{deleteEmpsTable.address}">
+                            <h:outputText value="#{deleteEmpsTable.address}" />
+                        </p:column>
+                        <p:column headerText="Department" sortBy="#{deleteEmpsTable.department}" filterBy="#{deleteEmpsTable.department}">
+                            <h:outputText value="#{deleteEmpsTable.department}" />
+                        </p:column>
+                        <p:column headerText="Salary" sortBy="#{deleteEmpsTable.salary}" filterBy="#{deleteEmpsTable.salary}">
+                            <h:outputText value="#{deleteEmpsTable.salary}" />
+                        </p:column>
+                        <p:column headerText="Delete">
+                            <p:commandButton value="Delete" actionListener="#{employee.deleteEmp(deleteEmpsTable.id)}" update="@form">
+                                <p:confirm header="Confirmation" message="Are you sure you want to delete?" icon="pi pi-exclamation-triangle"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                    </p:confirmDialog>
+
+                </h:form> 
+            </ui:define>   
+        </ui:composition>
+    </h:body>
+</html>
+

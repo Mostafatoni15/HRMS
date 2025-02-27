@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Update</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="newTemplate.xhtml" >
+            <ui:define name="templateContent"> 
+                <h:form id="updateForm">
+                    <p:growl id="updateGrowl" showDetail="true"/>
+
+                    <p:dataTable id="updateTable"  var="updateEmpsTable" value="#{employee.allEmps()}" resizableColumns="true" rowKey="#{updateEmpsTable.id}"
+                                 widgetVar="updateEmployeesTable" style="align-content: center; background-position: center" >
+
+                        <p:column headerText="ID" sortBy="#{updateEmpsTable.id}" filterBy="#{updateEmpsTable.id}">
+                            <h:outputText value="#{updateEmpsTable.id}" />
+                        </p:column>
+                        <p:column headerText="Name" sortBy="#{updateEmpsTable.empName}" filterBy="#{updateEmpsTable.empName}">
+                            <h:outputText value="#{updateEmpsTable.empName}" />
+                        </p:column>
+                        <p:column headerText="Email" sortBy="#{updateEmpsTable.email}" filterBy="#{updateEmpsTable.email}">
+                            <h:outputText value="#{updateEmpsTable.email}" />
+                        </p:column>
+                        <p:column headerText="Address" sortBy="#{updateEmpsTable.address}" filterBy="#{updateEmpsTable.address}">
+                            <h:outputText value="#{updateEmpsTable.address}" />
+                        </p:column>
+                        <p:column headerText="Department" sortBy="#{updateEmpsTable.department}" filterBy="#{updateEmpsTable.department}">
+                            <h:outputText value="#{updateEmpsTable.department}" />
+                        </p:column>
+                        <p:column headerText="Salary" sortBy="#{updateEmpsTable.salary}" filterBy="#{updateEmpsTable.salary}">
+                            <h:outputText value="#{updateEmpsTable.salary}" />
+                        </p:column>
+                        <p:column headerText="Update" >
+                            <p:commandButton value="Update" >
+                                <p:ajax listener="#{employee.updateEmployee(updateEmpsTable)}" oncomplete="PF('updateEmployeeDialog').show();"  update=":updateDialogForm" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <p:dialog id="updateDialog" header="Update Employee" widgetVar="updateEmployeeDialog" modal="true" showEffect="fade" hideEffect="fade" >
+                    <h:form id="updateDialogForm">
+                        <h:panelGrid id="updateDialogPanel" columns="2" cellpadding="7">
+
+                            <p:outputLabel for="newName" value="New Name:" />
+                            <p:inputText id="newName"  value="#{employee.selectedEmp.empName}" required="true" requiredMessage="Name is required!" />
+
+                            <p:outputLabel for="newEmail" value="New Email:" />
+                            <p:inputText id="newEmail" value="#{employee.selectedEmp.email}" required="true" requiredMessage="Email is required!" />
+
+                            <p:outputLabel for="newPassword" value="New Password:" />
+                            <p:password id="newPassword" value="#{employee.selectedEmp.password}" required="true" requiredMessage="Password is required!" />
+
+                            <p:outputLabel for="newAddress" value="New Address:" />
+                            <p:inputText id="newAddress" value="#{employee.selectedEmp.address}" />
+
+                            <p:outputLabel for="newDepartment" value="New Department: " />
+                            <p:selectOneMenu id="newDepartment" value="#{employee.selectedEmp.department}" required="true" requiredMessage="Department is required!" >
+                                <f:selectItem itemValue="Manager" itemLabel="Manager" />
+                                <f:selectItem itemValue="BackEnd Developer" itemLabel="BackEnd Developer" />
+                                <f:selectItem itemValue="FrontEnd Developer" itemLabel="FrontEnd Developer" />
+                                <f:selectItem itemValue="Tester" itemLabel="Tester" />
+                                <f:selectItem itemValue="IT" itemLabel="IT" />
+                                <f:selectItem itemValue="HR" itemLabel="HR" />
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="newSalary" value="New Salary" />
+                            <p:inputText id="newSalary" value="#{employee.selectedEmp.salary}" /><br/>
+
+                            <p:commandButton value="Submit" actionListener="#{employee.saveUpdatedEmp()}" update=":updateForm:updateTable :updateForm:updateGrowl" oncomplete="PF('updateEmployeeDialog').hide();"/>
+
+                        </h:panelGrid>
+                    </h:form> 
+                </p:dialog>
+            </ui:define>  
+        </ui:composition>
+    </h:body>
+</html>
+
